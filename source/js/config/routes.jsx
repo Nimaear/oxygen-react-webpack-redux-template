@@ -16,7 +16,7 @@ export const routes = [
   {
     path: '/',
     exact: true,
-    component: Dashboard
+    component: Dashboard,
   },
 ];
 
