@@ -18,7 +18,7 @@ OxygenCssPlugin.prototype.apply = function (compiler) {
     if (input && output && compilation.assets[output]) {
       const outputStyle = `${ compilation.assets[output].source() }\n${ style }`;
 
-      compilation.assets[output] = { // disable-no-param-reassign
+      compilation.assets[output] = { // eslint-disable-line no-param-reassign
         source: () => outputStyle,
         size: () => outputStyle.length,
       };
@@ -30,7 +30,7 @@ OxygenCssPlugin.prototype.apply = function (compiler) {
         'utf-8'
       );
 
-      compilation.assets['server/messages.json'] = { // disable-no-param-reassign
+      compilation.assets['server/messages.json'] = { // eslint-disable-line no-param-reassign
         source: () => messagesContent,
         size: () => messagesContent.length,
       };
@@ -38,7 +38,6 @@ OxygenCssPlugin.prototype.apply = function (compiler) {
 
     callback();
   });
-
 };
 
 module.exports = OxygenCssPlugin;

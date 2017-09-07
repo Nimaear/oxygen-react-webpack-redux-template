@@ -1,14 +1,12 @@
 import createReducer from './createReducer';
 
 const initialState = {
-  locale: 'en-US'
+  locale: 'en-US',
 };
-
-
 
 export const setLocale = (locale) => ({
   type: 'app/setLocale',
-  locale
+  locale,
 });
 
 export default createReducer(initialState, {

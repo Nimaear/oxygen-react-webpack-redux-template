@@ -8,7 +8,6 @@ export default store => {
     if (!apiCall) return next(action);
     const state = store.getState();
     const {
-      data,
       apiMethod,
       method,
       checkCache,
@@ -23,42 +22,41 @@ export default store => {
           next({ ...rest, ...response, type });
           return {
             error: false,
-            response
+            response,
           };
         }).catch(res => {
-          next({ ...rest, res, type: type + '/fail' });
+          next({ ...rest, res, type: `${ type }/fail` });
           return {
-            error: 'unknown'
-          }
-        })
+            error: 'unknown',
+          };
+        });
       }
     }
 
-    next({ ...rest, type: type + '/request' });
-    return api[apiMethod || 'post'](url, {method, data: data || {}})
+    next({ ...rest, type: `${ type }/request` });
+    return api[apiMethod || 'post'](url, { method, data: apiCall.data || {} })
       .then(res => {
-        const { isError, data } = res;
+        const { data } = res;
         if (apiCall.schema) {
-          const normalizedData = normalize(data, apiCall.schema)
+          const normalizedData = normalize(data, apiCall.schema);
           next({ ...rest, entities: normalizedData.entities, type });
           return {
             error: false,
-            ...normalizedData
-          };
-        } else {
-          next({ ...rest, data, type });
-          return {
-            error: false,
-            ...data
+            ...normalizedData,
           };
         }
+
+        next({ ...rest, data, type });
+        return {
+          error: false,
+          ...data,
+        };
       })
       .catch(res => {
-        next({ ...rest, res, type: type + '/fail' });
+        next({ ...rest, res, type: `${ type }/fail` });
         return {
-          error: res.error || true
-        }
+          error: res.error || true,
+        };
       });
-
   };
-}
+};

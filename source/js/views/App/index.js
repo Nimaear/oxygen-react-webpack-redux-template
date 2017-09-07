@@ -5,7 +5,7 @@ import i18n, { _l } from 'oxygen-i18n';
 import Menu from 'components/Global/Menu';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setLocale } from 'reducers/app';
+import * as appActions from 'reducers/app';
 
 addTranslations({
   'en-US': {
@@ -18,15 +18,13 @@ addTranslations({
   },
 });
 
-
 @connect(state => ({
   locale: state.app.locale,
-}), (dispatch, props) => ({
-  setLocale: bindActionCreators(setLocale, dispatch),
+}), dispatch => ({
+  setLocale: bindActionCreators(appActions.setLocale, dispatch),
 }))
 export default class App extends Component {
   static propTypes = {
-    children: PropTypes.object,
     locale: PropTypes.string,
     setLocale: PropTypes.func,
   }
@@ -40,12 +38,12 @@ export default class App extends Component {
   }
 
   render() {
-    const { locale, setLocale } = this.props;
+    const { setLocale } = this.props;
     return (
       <div className='App'>
         <Menu />
-        <button onClick={() => setLocale('sv-SE')}>{_l`Swedish`}</button>
-        <button onClick={() => setLocale('en-US')}>{_l`English`}</button>
+        <button onClick={ () => setLocale('sv-SE') }>{_l`Swedish`}</button>
+        <button onClick={ () => setLocale('en-US') }>{_l`English`}</button>
         <div className='Page'>
           <Routes />
         </div>

@@ -9,7 +9,8 @@ import Client from 'views/Client';
 
 import es6Promise from 'es6-promise';
 import 'isomorphic-fetch';
-import i18n, { translate as _l, addMessages } from 'oxygen-i18n';
+import { addMessages } from 'oxygen-i18n';
+
 const SERVER_RENDER = process.env.SERVER_RENDER === 'true';
 
 es6Promise.polyfill();
@@ -20,11 +21,11 @@ require('../../tmp/bundle.css');
 require('../styles/reset.css');
 
 if (!SERVER_RENDER) {
-  if (global && global.__INIT_MESSAGES) {
-    addMessages(global.__INIT_MESSAGES);
-    delete global.__INIT_MESSAGES;
+  if (global && global.__INIT_MESSAGES) { // eslint-disable-line no-underscore-dangle
+    addMessages(global.__INIT_MESSAGES); // eslint-disable-line no-underscore-dangle
+    delete global.__INIT_MESSAGES; // eslint-disable-line no-underscore-dangle
   } else {
-    const messages = require('../../tmp/messages.json');
+    const messages = require('../../tmp/messages.json'); // eslint-disable-line global-require
     addMessages(messages);
   }
 }
@@ -45,7 +46,7 @@ render(Client);
 
 if (module.hot) {
   module.hot.accept('../../tmp/messages.json', () => {
-    const nextMessages = require('../../tmp/messages.json');
+    const nextMessages = require('../../tmp/messages.json'); // eslint-disable-line global-require
     addMessages(nextMessages);
     const NewClient = require('./views/Client/index').default; // eslint-disable-line global-require
 
