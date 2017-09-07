@@ -1,5 +1,5 @@
 {
-  "name": "oxygen-template",
+  "name": "oxygen-react-webpack-redux-template",
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
@@ -90,7 +90,7 @@
   "description": "Starter boilerplate for React and Redux, using Webpack 3",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/TriOxygen/oxygen-template.git"
+    "url": "git+ssh://git@github.com/nimaear/oxygen-react-webpack-redux-template.git"
   },
   "keywords": [
     "react",
@@ -98,11 +98,11 @@
     "webpack2",
     "boilerplate"
   ],
-  "author": "Stanko",
+  "author": "Oz",
   "bugs": {
-    "url": "https://github.com/TriOxygen/oxygen-template/issues"
+    "url": "https://github.com/nimaear/oxygen-react-webpack-redux-template/issues"
   },
-  "homepage": "https://github.com/TriOxygen/oxygen-template#readme",
+  "homepage": "https://github.com/nimaear/oxygen-react-webpack-redux-template#readme",
   "prepush": [
     "npm run lint-hook --silent"
   ]
