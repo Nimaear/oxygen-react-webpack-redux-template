@@ -10,7 +10,6 @@ const paths = {
   source: path.join(__dirname, '../source'),
   javascript: path.join(__dirname, '../source/js'),
   images: path.join(__dirname, '../source/assets/img'),
-  svg: path.join(__dirname, '../source/assets/svg'),
   build: path.join(__dirname, '../build'),
 };
 
@@ -96,7 +95,7 @@ const rules = [
             prefix: 'cs',
             compressClassNames: true,
             bundleFile: './tmp/bundle.css',
-            context: './source/styles/index.js',
+            context: './source/js/style/index.js',
             mediaMap: {
               phone: 'media only screen and (max-width: 767px)',
               tablet: 'media only screen and (min-width: 768px) and (max-width: 959px)',

@@ -6,6 +6,7 @@ import Menu from 'components/Global/Menu';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as appActions from 'reducers/app';
+import Button from 'components/UI/Button';
 
 addTranslations({
   'en-US': {
@@ -42,8 +43,8 @@ export default class App extends Component {
     return (
       <div className='App'>
         <Menu />
-        <button onClick={ () => setLocale('sv-SE') }>{_l`Swedish`}</button>
-        <button onClick={ () => setLocale('en-US') }>{_l`English`}</button>
+        <Button onClick={ () => setLocale('sv-SE') }>{_l`Swedish`}</Button>
+        <Button onClick={ () => setLocale('en-US') }>{_l`English`}</Button>
         <div className='Page'>
           <Routes />
         </div>
