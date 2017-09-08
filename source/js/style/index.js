@@ -1,15 +1,15 @@
 
 const typographyScales = {
-  fontSize: [6, 7, 8, 9, 10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 48, 55, 63, 73, 84, 96],
-  lineHeight: [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5],
-  letterSpacing: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+  fontSize: [6, 7, 8, 9, 10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 48, 55, 63, 73, 84, 96], // eslint-disable-line max-len
+  lineHeight: [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5], // eslint-disable-line max-len
+  letterSpacing: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5], // eslint-disable-line max-len
 };
 
 const neutral = 5;
 
 const decimalToHex = (d, padding = 2) => {
   let input = d;
-  if (input < 0 ) {
+  if (input < 0) {
     input = 0;
   } else if (input > 255) {
     input = 255;
@@ -19,7 +19,7 @@ const decimalToHex = (d, padding = 2) => {
     hex = `0${ hex }`;
   }
   return hex;
-}
+};
 
 const fontSize = (index = 0) => {
   return `${ typographyScales.fontSize[neutral + index] }px`;
@@ -41,29 +41,29 @@ const brighten = (input, delta = 0.1) => {
   return `#${ decimalToHex(r) }${ decimalToHex(g) }${ decimalToHex(b) }`;
 };
 
-const rgba = input => {
+const rgba = (input, opacity = 1) => {
   const hex = input.replace('#', '');
   const r = Math.ceil(parseInt(hex.substring(0, 2), 16));
   const g = Math.ceil(parseInt(hex.substring(2, 4), 16));
   const b = Math.ceil(parseInt(hex.substring(4, 6), 16));
   return `rgba(${ r }, ${ g }, ${ b }, ${ opacity })`;
-}
+};
 
 const getContrastYIQ = (input) => {
   const hex = input.replace('#', '');
-  const r = parseInt(hex.substr(0,2),16);
-  const g = parseInt(hex.substr(2,2),16);
-  const b = parseInt(hex.substr(4,2),16);
-  const yiq = ((r*299)+(g*587)+(b*114))/1000;
-  return (yiq >= 128) ? `#F0F0F0` : `#111111`;
-}
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  return (yiq >= 128) ? '#111111' : '#F0F0F0';// : '#111111';
+};
 
 const Shadow = [
   null,
   '0 1px 3px 0 rgba(0, 0, 0, 0.11)',
   '0 2px 6px 0 rgba(0, 0, 0, 0.06)',
   '0 5px 14px 0 rgba(0, 0, 0, 0.08)',
-  '0 2px 24px 0 rgba(0,0,0,.07)'
+  '0 2px 24px 0 rgba(0,0,0,.07)',
 ];
 
 module.exports = {
@@ -88,7 +88,7 @@ module.exports = {
     fontSize: 14,
   },
   Units: {
-    base: 8,
+    base: 4,
     keyline: 64,
     fullWidth: 1160,
   },
