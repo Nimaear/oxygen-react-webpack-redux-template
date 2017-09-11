@@ -20,6 +20,12 @@ const css = oxygenCss({
     '&fullWidth': {
       display: 'block',
     },
+    '&disabled': {
+      opacity: 0.33,
+      ' label': {
+        cursor: 'not-allowed',
+      },
+    },
   },
   button: {
     position: 'absolute',
@@ -83,6 +89,7 @@ export default class Radio extends Component {
     rightAlign: PropTypes.bool,
     onChange: PropTypes.func,
     color: PropTypes.string,
+    disabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -104,10 +111,11 @@ export default class Radio extends Component {
   };
 
   render() {
-    const { children, rightAlign, color, fullWidth, onChange, value, name, checked, ...other } = this.props;
+    const { children, disabled, rightAlign, color, fullWidth, onChange, value, name, checked, ...other } = this.props;
     const cn = classNames(css.root, {
       [css.fullWidth]: fullWidth,
       [css.rightAlign]: rightAlign,
+      [css.disabled]: disabled
     });
     const backgroundColor = checked ? color : null;
     return (
@@ -118,6 +126,7 @@ export default class Radio extends Component {
             className={ css.input }
             type='radio'
             value={ value }
+            disabled = { disabled }
             checked={ checked }
             name={ name }
             onChange={ this.handleChange }

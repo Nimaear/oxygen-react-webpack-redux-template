@@ -10,6 +10,8 @@ import Button from 'components/UI/Button';
 import Panel from 'components/UI/Panel';
 import ListItem from 'components/UI/ListItem';
 import Toggle from 'components/UI/Toggle';
+import TextField from 'components/UI/TextField';
+import TextArea from 'components/UI/TextArea';
 import Radio from 'components/UI/Radio';
 import RadioGroup from 'components/UI/RadioGroup';
 import { fontSize, lineHeight } from 'style';
@@ -69,19 +71,33 @@ export default class App extends Component {
             Hello<br />
             Hello<br />
             Hello<br />
+          </ListItem>
+          <ListItem color={'green'} secondary={'bye'} right={ '$30' }>
+            Hello<br />
+            Hello<br />
+            Hello<br />
+          </ListItem>
+          <ListItem color={'red'} disabled secondary={'bye'} right={ '$30' }>
+            Hello<br />
+            Hello<br />
             Hello<br />
           </ListItem>
         </Panel>
         <Panel width={ 400 } padded>
+          <TextField fullWidth />
+          <TextArea fullWidth />
+        </Panel>
+        <Panel width={ 400 } padded>
           <Toggle checked={checked} rightAlign fullWidth onChange={() => this.setState({ checked: !this.state.checked }) } >Hello</Toggle>
+          <Toggle color={ '#991111' } checked={checked} rightAlign fullWidth onChange={() => this.setState({ checked: !this.state.checked }) } >Hello</Toggle>
           <Toggle rightAlign fullWidth checked={true}>Hello</Toggle>
           <Toggle rightAlign fullWidth>Hello</Toggle>
-          <Toggle rightAlign fullWidth>Hello</Toggle>
+          <Toggle disabled rightAlign fullWidth>Hello</Toggle>
         </Panel>
         <Panel width={ 400 } padded>
           <RadioGroup value={ 3 }>
             <Radio fullWidth rightAlign value={ 1 } >1</Radio>
-            <Radio fullWidth rightAlign value={ 2 } >2</Radio>
+            <Radio disabled fullWidth rightAlign value={ 2 } >2</Radio>
             <Radio fullWidth rightAlign value={ 3 } >3</Radio>
             <Radio color={'#440000'} fullWidth rightAlign value={ 4 } >4</Radio>
           </RadioGroup>
