@@ -17,6 +17,14 @@ const css = oxygenCss({
     borderWidth: `${ Units.base }px`,
     borderColor: 'transparent',
     backgroundColor: '#FFFFFF',
+    '+root': {
+      marginTop: `${ Units.base * 2 }px`,
+    },
+    '&disabled': {
+      opacity: 0.33,
+      cursor: 'not-allowed',
+      boxShadow: 'none',
+    },
     ':hover': {
       boxShadow: '0 2px 4px rgba(0, 0, 0, .125), inset 0 -10px 20px -5px rgba(0, 0, 0, 0.1), inset -2em 0 0 -0.3em rgba(0, 0, 0, .10)',
       // backgroundColor: '#F7F7F7',
@@ -66,18 +74,20 @@ export default class ListItem extends Component {
     secondary: PropTypes.node,
     right: PropTypes.node,
     color: PropTypes.string,
+    disabled: PropTypes.bool,
   };
 
   render() {
     const {
       children,
       secondary,
+      disabled,
       right,
       color,
       ...other
     } = this.props;
     const cn = classNames(css.root, {
-
+      [css.disabled]: disabled
     });
     return (
       <a className={ cn } { ...other } style={ { borderColor: color } }>

@@ -20,6 +20,13 @@ const css = oxygenCss({
     '&fullWidth': {
       display: 'block',
     },
+    '&disabled': {
+      opacity: 0.33,
+      ' label': {
+        cursor: 'not-allowed',
+      },
+    },
+
   },
   button: {
     position: 'absolute',
@@ -82,6 +89,7 @@ export default class Toggle extends Component {
     rightAlign: PropTypes.bool,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     checked: PropTypes.bool,
+    disabled: PropTypes.bool,
     onChange: PropTypes.func,
     color: PropTypes.string,
   };
@@ -104,10 +112,11 @@ export default class Toggle extends Component {
   };
 
   render() {
-    const { children, checked, value, color, fullWidth, rightAlign, ...other } = this.props;
+    const { children, disabled, checked, value, color, fullWidth, rightAlign, ...other } = this.props;
     const cn = classNames(css.root, {
       [css.fullWidth]: fullWidth,
       [css.rightAlign]: rightAlign,
+      [css.disabled]: disabled
     });
     const backgroundColor = checked ? color : null;
     const marginLeft = checked ? `${ Units.keyline / 2 }px` : null;
@@ -120,6 +129,7 @@ export default class Toggle extends Component {
             type='checkbox'
             value={ value }
             checked={ checked }
+            disabled={ disabled }
             onChange={ this.handleChange }
           />
           <label htmlFor={ this.id } className={ css.label } style={ { backgroundColor } }>

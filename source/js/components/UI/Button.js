@@ -25,11 +25,8 @@ const css = oxygenCss({
       boxShadow: 'inset 0 -4px 0 1px rgba(0, 0, 0, 0.1), inset 0 -10px 20px -10px rgba(0, 0, 0, 0.05)',
     },
     '&disabled': {
-      opacity: 0.5,
+      opacity: 0.33,
       cursor: 'not-allowed',
-      ':before': {
-        display: 'none',
-      },
     },
     '&hasIcon': {
       paddingLeft: `${ Units.base * 10 }px`,
@@ -95,4 +92,3 @@ export default class Button extends Component {
     );
   }
 }
-
