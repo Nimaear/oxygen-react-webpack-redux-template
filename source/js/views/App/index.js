@@ -73,7 +73,7 @@ export default class App extends Component {
           </ListItem>
         </Panel>
         <Panel width={ 400 } padded>
-          <Toggle color={ '#991111' } checked={checked} rightAlign fullWidth onChange={() => this.setState({ checked: !this.state.checked }) } >Hello</Toggle>
+          <Toggle checked={checked} rightAlign fullWidth onChange={() => this.setState({ checked: !this.state.checked }) } >Hello</Toggle>
           <Toggle rightAlign fullWidth checked={true}>Hello</Toggle>
           <Toggle rightAlign fullWidth>Hello</Toggle>
           <Toggle rightAlign fullWidth>Hello</Toggle>

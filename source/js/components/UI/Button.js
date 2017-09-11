@@ -36,7 +36,7 @@ const css = oxygenCss({
       textAlign: 'left',
     },
     ':hover': {
-      boxShadow: 'inset 0 -1px 0 1px rgba(0, 0, 0, 0.1), inset 0 -10px 20px -10px rgba(0, 0, 0, 0.1), 0 0px 2px 3px rgba(0, 0, 0, 0.05), inset 0 0 10px 20px rgba(0, 0, 0, 0.05)',
+      boxShadow: 'inset 0 -1px 0 1px rgba(0, 0, 0, 0.1), inset 0 -10px 20px -10px rgba(0, 0, 0, 0.1), 0 0px 2px 3px rgba(0, 0, 0, 0.05), 0 0px 2px rgba(0, 0, 0, 0.05)',
     },
   },
   // highlight: {
