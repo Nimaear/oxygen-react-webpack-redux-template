@@ -87,7 +87,7 @@ export default class ListItem extends Component {
       ...other
     } = this.props;
     const cn = classNames(css.root, {
-      [css.disabled]: disabled
+      [css.disabled]: disabled,
     });
     return (
       <a className={ cn } { ...other } style={ { borderColor: color } }>
