@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import logger from 'dev/logger';
 import apiMiddleware from 'api/middleware';
 
-import rootReducer from 'reducers';
+import rootReducer from 'dux';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -61,8 +61,8 @@ export default () => {
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers', () => {
-      const nextRootReducer = require('../reducers/index').default; // eslint-disable-line global-require
+    module.hot.accept('../dux', () => {
+      const nextRootReducer = require('../dux').default; // eslint-disable-line global-require
       store.replaceReducer(nextRootReducer);
     });
   }

@@ -9,6 +9,10 @@ const css = oxygenCss({
     position: 'relative',
     padding: `${ Units.base * 2 }px ${ Units.base }px`,
     cursor: 'pointer',
+    '&selected': {
+      boxShadow: 'inset 0px 0px 200px 0px rgba(0, 255, 255, 0.1)',
+      fontWeight: 700,
+    },
     '&disabled': {
       opacity: 0.33,
       cursor: 'not-allowed',
@@ -32,7 +36,14 @@ export default class MenuItem extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     disabled: PropTypes.bool,
-    payload: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.bool, PropTypes.number, PropTypes.array]),
+    selected: PropTypes.bool,
+    payload: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.number,
+      PropTypes.array,
+    ]),
     onTouchTap: PropTypes.func,
     label: PropTypes.node,
     href: PropTypes.string,
@@ -53,13 +64,14 @@ export default class MenuItem extends Component {
 
 
   render() {
-    const { children, disabled, className, ...other } = this.props;
+    const { children, selected, disabled, label, className, ...other } = this.props;
     const cn = classNames(css.root, className, {
       [css.disabled]: disabled,
+      [css.selected]: selected,
     });
     return (
       <a role={ 'button' } tabIndex={ 0 } className={ cn } { ...other } onClick={ this.handleTouchTap }>
-        {children}
+        {label}{children}
       </a>
     );
   }

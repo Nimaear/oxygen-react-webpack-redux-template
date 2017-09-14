@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const OxygenPlugin = require('./oxygen');
+const { OxygenCssPlugin, OxygenI18nPlugin } = require('./oxygen');
 const autoprefixer = require('autoprefixer');
 
 
@@ -37,10 +37,13 @@ const plugins = [
       SERVER_RENDER: JSON.stringify(SERVER_RENDER) === 'true',
     },
   }),
-  new OxygenPlugin({
+  new OxygenCssPlugin({
     input: oxygenCssBundle,
     output: outputFiles.css,
     messages: oxygenMessages,
+  }),
+  new OxygenI18nPlugin({
+    input: oxygenMessages,
   }),
 ];
 

@@ -7,7 +7,7 @@ const css = oxygenCss({
   root: {
     display: 'inline-block',
     minWidth: Units.keyline * 2,
-    margin: `${ Units.base * 4 }px ${ Units.base }px ${ Units.base * 4 }px 0`,
+    // margin: `${ Units.base * 4 }px ${ Units.base }px ${ Units.base * 4 }px 0`,
     '&disabled': {
       opacity: 0.33,
       cursor: 'not-allowed',

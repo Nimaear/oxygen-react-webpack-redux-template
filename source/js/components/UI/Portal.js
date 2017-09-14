@@ -96,18 +96,14 @@ export default class Portal extends Component {
 
   renderPortal(props) {
     const { children, menu, positioned, dialog, tooltip, className, ...other } = props;
-    this.node.className = classNames(className, css.root, {
+    const cn = classNames(className, css.root, {
       [css.dialog]: dialog,
       [css.positioned]: positioned,
       [css.menu]: menu,
       [css.tooltip]: tooltip,
     });
 
-    if (children && children.length > 0) {
-      unstable_renderSubtreeIntoContainer(this, <div { ...other }>{children}</div>, this.node);
-    } else if (children) {
-      unstable_renderSubtreeIntoContainer(this, React.Children.only(children), this.node);
-    }
+    unstable_renderSubtreeIntoContainer(this, <div className={ cn } { ...other }>{children}</div>, this.node);
   }
 
   render() {

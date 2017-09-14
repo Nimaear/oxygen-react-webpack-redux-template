@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import i18n, { _l } from 'oxygen-i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as appActions from 'reducers/app';
+import * as appActions from 'dux/reducers/app';
+import * as buildingActions from 'dux/reducers/building';
+import * as floorActions from 'dux/reducers/floor';
+import { getBuildings } from 'dux/selectors/building';
 import Button from 'components/UI/Button';
 import Panel from 'components/UI/Panel';
 import ListItem from 'components/UI/ListItem';
@@ -15,18 +18,23 @@ import Menu from 'components/UI/Menu';
 import MenuItem from 'components/UI/MenuItem';
 import Radio from 'components/UI/Radio';
 import RadioGroup from 'components/UI/RadioGroup';
-import { fontSize, lineHeight } from 'style';
+import SelectField from 'components/UI/SelectField';
+import { Units, fontSize, lineHeight } from 'style';
 
 addTranslations({
   'en-US': {
     'English': 'English',
     'Swedish': 'Swedish',
     'Home': 'Home',
+    '{0} floors': '{0} floors',
+    'Building: {0}': 'Building: {0}',
   },
   'sv-SE': {
     'English': 'Engelsk',
     'Swedish': 'Svensk',
     'Home': 'Home',
+    '{0} floors': '{0} floors',
+    'Building: {0}': 'Building: {0}',
   },
 });
 
@@ -37,23 +45,27 @@ const css = oxygenCss({
     fontSize: `${ fontSize(1) }`,
     lineHeight: `${ lineHeight(1) }`,
   },
+  floor: {
+    padding: `${ Units.base }px 0`,
+  },
 });
 
 
 @connect(state => ({
   locale: state.app.locale,
+  buildings: getBuildings(state),
 }), dispatch => ({
-  setLocale: bindActionCreators(appActions.setLocale, dispatch),
+  // setLocale: bindActionCreators(appActions.setLocale, dispatch),
+  addBuilding: bindActionCreators(buildingActions.addBuilding, dispatch),
+  addFloor: bindActionCreators(floorActions.addFloor, dispatch),
 }))
 export default class App extends Component {
   static propTypes = {
     locale: PropTypes.string,
-    setLocale: PropTypes.func,
+    addBuilding: PropTypes.func,
+    buildings: PropTypes.array,
   }
 
-  state = {
-    checked: true
-  };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.locale !== nextProps.locale) {
@@ -63,60 +75,43 @@ export default class App extends Component {
     }
   }
 
+  addBuilding = () => {
+    const { addBuilding } = this.props;
+    addBuilding('Oz', 'Building of Öz');
+  };
+
+
+  addFloor = (buildingId) => {
+    const { addFloor } = this.props;
+    addFloor(buildingId, 'Floor', 'New floor');
+  };
+
   render() {
-    const { setLocale } = this.props;
-    const { checked } = this.state;
+    const { buildings } = this.props;
     return (
       <div className='App'>
-        <Panel padded>
-          <ListItem color={'green'} secondary={'bye'} right={ '$30' }>
-            Hello<br />
-            Hello<br />
-            Hello<br />
-          </ListItem>
-          <ListItem color={'green'} secondary={'bye'} right={ '$30' }>
-            Hello<br />
-            Hello<br />
-            Hello<br />
-          </ListItem>
-          <ListItem color={'red'} disabled secondary={'bye'} right={ '$30' }>
-            Hello<br />
-            Hello<br />
-            Hello<br />
-          </ListItem>
+        <Panel padded width={ 400 }>
+          <Button fullWidth onTouchTap={ this.addBuilding }>{_l`Add building`}</Button>
         </Panel>
         <Panel padded>
-          <Menu>
-            <MenuItem disabled>Test</MenuItem>
-            <MenuItem>Test</MenuItem>
-            <MenuItem>Test</MenuItem>
-            <MenuItem>Test</MenuItem>
-          </Menu>
-        </Panel>
-        <Panel width={ 400 } padded>
-          <TextField fullWidth />
-          <TextArea fullWidth />
-        </Panel>
-        <Panel width={ 400 } padded>
-          <Toggle checked={checked} rightAlign fullWidth onChange={() => this.setState({ checked: !this.state.checked }) } >Hello</Toggle>
-          <Toggle color={ '#991111' } checked={checked} rightAlign fullWidth onChange={() => this.setState({ checked: !this.state.checked }) } >Hello</Toggle>
-          <Toggle checked={checked} rightAlign fullWidth>Hello</Toggle>
-          <Toggle checked={checked} rightAlign fullWidth>Hello</Toggle>
-          <Toggle checked={checked} disabled rightAlign fullWidth>Hello</Toggle>
-        </Panel>
-        <Panel width={ 400 } padded>
-          <RadioGroup value={ 3 }>
-            <Radio fullWidth rightAlign value={ 1 } >1</Radio>
-            <Radio disabled fullWidth rightAlign value={ 2 } >2</Radio>
-            <Radio fullWidth rightAlign value={ 3 } >3</Radio>
-            <Radio color={'#440000'} fullWidth rightAlign value={ 4 } >4</Radio>
-          </RadioGroup>
-        </Panel>
-        <Panel padded width={400}>
-          <Button fullWidth onClick={ () => setLocale('sv-SE') }>{_l`Swedish`}</Button>
-          <Button fullWidth onClick={ () => setLocale('en-US') } primary>{_l`English`}</Button>
-          <Button fullWidth href='/home' primary onTouchTap={(payload, label) => console.log(payload, label)}>{_l`Home`}</Button>
-          <Button fullWidth onClick={ () => setLocale('en-US') } disabled>{_l`Disabled`}</Button>
+          {buildings.map(building => {
+            const floors = building.floors;
+            return (
+              <Panel key={ building.id }>
+                <Panel padded>
+                  {_l`Building: ${ building.name }`}
+                  <Panel>
+                    <Button onTouchTap={ () => this.addFloor(building.id) }>{_l`Add Floor`}</Button>
+                  </Panel>
+                </Panel>
+                <Menu>
+                  {floors.map(floor => {
+                    return <MenuItem key={ floor.id }>{ floor.name }</MenuItem>;
+                  })}
+                </Menu>
+              </Panel>
+            );
+          })}
         </Panel>
         <div className='Page'>
           <Routes />

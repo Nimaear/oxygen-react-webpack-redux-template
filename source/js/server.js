@@ -12,7 +12,7 @@ import { routes } from 'config/routes';
 import Server from 'views/Server';
 import path from 'path';
 import fs from 'fs';
-import { status } from 'reducers/auth';
+import { status } from 'dux/reducers/auth';
 import mongoDbSession from 'connect-mongodb-session';
 
 const MongoDBStore = mongoDbSession(expressSession);
@@ -31,7 +31,7 @@ require('../styles/reset.css');
 
 
 const messages = fs.readFileSync(
-  path.resolve('build', 'server', 'messages.json'),
+  path.resolve('build', 'messages.json'),
   'utf-8'
 );
 

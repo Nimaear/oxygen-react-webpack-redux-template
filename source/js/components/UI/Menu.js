@@ -6,7 +6,7 @@ import enhanceWithClickOutside from 'lib/enhanceWithClickOutside';
 const css = oxygenCss({
   root: {
     position: 'relative',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, .125), inset 0 -10px 20px -10px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 2px 4px 2px rgba(0, 0, 0, .125), inset 0 -10px 20px -10px rgba(0, 0, 0, 0.1)',
     backgroundColor: '#FFFFFF',
     borderRadius: 2,
   },

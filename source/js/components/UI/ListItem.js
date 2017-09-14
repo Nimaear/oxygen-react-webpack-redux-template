@@ -75,6 +75,7 @@ export default class ListItem extends Component {
     right: PropTypes.node,
     color: PropTypes.string,
     disabled: PropTypes.bool,
+    href: PropTypes.string,
   };
 
   render() {
@@ -84,20 +85,34 @@ export default class ListItem extends Component {
       disabled,
       right,
       color,
+      href,
       ...other
     } = this.props;
     const cn = classNames(css.root, {
       [css.disabled]: disabled,
     });
+    if (href) {
+      return (
+        <a className={ cn } { ...other } style={ { borderColor: color } }>
+          <span className={ css.item }>{children}</span>
+          <span className={ css.secondary }>{secondary}</span>
+          {right && <span className={ css.right }>{right}</span>}
+          <span className={ css.chevron }>
+            +
+          </span>
+        </a>
+      );
+    }
+
     return (
-      <a className={ cn } { ...other } style={ { borderColor: color } }>
+      <div className={ cn } { ...other } style={ { borderColor: color } }>
         <span className={ css.item }>{children}</span>
         <span className={ css.secondary }>{secondary}</span>
         {right && <span className={ css.right }>{right}</span>}
         <span className={ css.chevron }>
           +
         </span>
-      </a>
+      </div>
     );
   }
 }
