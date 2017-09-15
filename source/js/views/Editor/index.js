@@ -21,7 +21,7 @@ export default class Person extends Component {
     });
     return (
       <div className={ cn } { ...other }>
-        {children}
+        Personel
       </div>
     );
   }

@@ -10,6 +10,9 @@ import Client from 'views/Client';
 import es6Promise from 'es6-promise';
 import 'isomorphic-fetch';
 import { addMessages } from 'oxygen-i18n';
+// import 'semantic-ui-css/semantic.min.css';
+import '../../tmp/bundle.css';
+import '../styles/reset.css';
 
 const SERVER_RENDER = process.env.SERVER_RENDER === 'true';
 
@@ -17,8 +20,8 @@ es6Promise.polyfill();
 
 const store = configureStore();
 
-require('../../tmp/bundle.css');
-require('../styles/reset.css');
+// require('../../tmp/bundle.css');
+// require('../styles/reset.css');
 
 if (!SERVER_RENDER) {
   if (global && global.__INIT_MESSAGES) { // eslint-disable-line no-underscore-dangle

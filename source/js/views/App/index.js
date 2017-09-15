@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import i18n from 'oxygen-i18n';
 import { Units, fontSize, lineHeight } from 'style';
 import MainMenu from 'components/Global/MainMenu';
-import Page from 'components/Global/Page';
+
+import { Container, Divider, Dropdown, Grid, Header, Image, List, Menu, Segment } from 'semantic-ui-react'
 
 addTranslations({
   'en-US': {
@@ -42,13 +43,16 @@ export default class App extends Component {
       this.forceUpdate();
     }
   }
+
   render() {
     return (
-      <div className={ css.app }>
+      <div>
         <MainMenu />
-        <Page>
+
+        <Container text style={{ marginTop: '7em' }}>
           <Routes />
-        </Page>
+        </Container>
+
       </div>
     );
   }

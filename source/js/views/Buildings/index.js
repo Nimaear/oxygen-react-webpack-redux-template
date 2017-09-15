@@ -50,33 +50,34 @@ export default class Building extends Component {
     const cn = classNames(css.root, className, {
 
     });
-    return (
-      <div className={ cn } { ...other }>
-        <Panel padded width={ 400 }>
-          <Button fullWidth onTouchTap={ this.addBuilding }>{_l`Add building`}</Button>
-        </Panel>
-        <Panel padded>
-          {buildings.map(building => {
-            const floors = building.floors;
-            return (
-              <Panel key={ building.id }>
-                <Panel padded>
-                  {_l`Building: ${ building.name }`}
-                  <Panel>
-                    <Button onTouchTap={ () => this.addFloor(building.id) }>{_l`Add Floor`}</Button>
-                  </Panel>
-                </Panel>
-                <Menu>
-                  {floors.map(floor => {
-                    return <MenuItem key={ floor.id }>{ floor.name }</MenuItem>;
-                  })}
-                </Menu>
-              </Panel>
-            );
-          })}
-        </Panel>
-      </div>
-    );
+    return <div>Buildings</div>;
+    // return (
+    //   <div className={ cn } { ...other }>
+    //     <Panel padded width={ 400 }>
+    //       <Button fullWidth onTouchTap={ this.addBuilding }>{_l`Add building`}</Button>
+    //     </Panel>
+    //     <Panel padded>
+    //       {buildings.map(building => {
+    //         const floors = building.floors;
+    //         return (
+    //           <Panel key={ building.id }>
+    //             <Panel padded>
+    //               {_l`Building: ${ building.name }`}
+    //               <Panel>
+    //                 <Button onTouchTap={ () => this.addFloor(building.id) }>{_l`Add Floor`}</Button>
+    //               </Panel>
+    //             </Panel>
+    //             <Menu>
+    //               {floors.map(floor => {
+    //                 return <MenuItem key={ floor.id }>{ floor.name }</MenuItem>;
+    //               })}
+    //             </Menu>
+    //           </Panel>
+    //         );
+    //       })}
+    //     </Panel>
+    //   </div>
+    // );
   }
 }
 
