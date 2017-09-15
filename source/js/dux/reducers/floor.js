@@ -33,7 +33,7 @@ export default createReducer(initialState, {
     return {
       ...state,
       [floorId]: {
-        ...floorg,
+        ...floor,
         rooms: [
           ...floor.floors,
           id,
