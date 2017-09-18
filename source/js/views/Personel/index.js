@@ -8,7 +8,7 @@ const css = oxygenCss({
   },
 });
 
-export default class Person extends Component {
+export default class Personel extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -20,10 +20,9 @@ export default class Person extends Component {
 
     });
     return (
-      <div className={ cn } { ...other }>
+      <div className={ cn }>
         Personel
       </div>
     );
   }
 }
-

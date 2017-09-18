@@ -3,19 +3,12 @@ import { Route, Switch } from 'react-router-dom';
 
 import Dashboard from 'views/Dashboard';
 import Editor from 'views/Editor';
-import Buildings from 'views/Buildings';
+import Building from 'views/Building';
 import Personel from 'views/Personel';
+import Project from 'views/Project';
 import NotFound from 'views/NotFound';
 
 const publicPath = '/';
-
-export const routeCodes = {
-  DASHBOARD: publicPath,
-  ABOUT: `${ publicPath }about`,
-  EDITOR: `${ publicPath }editor`,
-  BUILDINGS: `${ publicPath }buildings`,
-  PERSONEL: `${ publicPath }personel`,
-};
 
 export const routes = [
   {
@@ -23,15 +16,19 @@ export const routes = [
     component: Dashboard,
   },
   {
-    path: routeCodes.EDITOR,
+    path: `${ publicPath }editor`,
     component: Editor,
   },
   {
-    path: routeCodes.BUILDINGS,
-    component: Buildings,
+    path: `${ publicPath }project/:projectId`,
+    component: Project,
   },
   {
-    path: routeCodes.PERSONEL,
+    path: `${ publicPath }building/:buildingId`,
+    component: Building,
+  },
+  {
+    path: `${ publicPath }personel`,
     component: Personel,
   },
 ];
@@ -51,6 +48,7 @@ export default () => (
 // export default () => (
 //   <Switch>
 //     <Route exact path={ routeCodes.DASHBOARD } component={ Dashboard } />
+//     <Route path={ routeCodes.EDITOR } component={ Editor } />
 //     <Route path='*' component={ NotFound } />
 //   </Switch>
 // );

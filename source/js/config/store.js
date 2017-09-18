@@ -22,6 +22,21 @@ try {
 //   INIT_STATE = JSON.parse(INIT_STATE);
 // }
 
+
+const persistToLocalStorage = store => {
+  return next => action => {
+    const { type } = action;
+    if (type === 'app/save') {
+      const state = store.getState();
+      localStorage.setItem('__ENTITIES', JSON.stringify(state.entities));
+    } else if (type === 'app/load') {
+      const entities = JSON.parse(localStorage.getItem('__ENTITIES'));
+      next({ type: 'entities/load', entities });
+    }
+    return next(action);
+  };
+};
+
 // Creating store
 export default () => {
   let store = null;
@@ -33,7 +48,7 @@ export default () => {
   } else {
     // In development mode beside thunk
     // logger and DevTools are added
-    middleware = applyMiddleware(thunk, apiMiddleware, logger);
+    middleware = applyMiddleware(thunk, persistToLocalStorage, apiMiddleware, logger);
 
     // Enable DevTools if browser extension is installed
     if (!process.env.SERVER_RENDER && window.__REDUX_DEVTOOLS_EXTENSION__) { // eslint-disable-line

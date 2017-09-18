@@ -93,7 +93,7 @@ app.use((req, res) => {
 
   Promise.all(promises).then(data => {
     const state = store.getState();
-    let title = 'Coursio';
+    let title = 'PlaceMe';
     if (state && state.entities && state.entities.store) {
       const storeName = Object.keys(state.entities.store)[0];
       const storeDetails = state.entities.store[storeName];

@@ -7,7 +7,7 @@ const initialState = {
 
 export const addSeat = (roomId, name, description) => ({
   type: 'seat/addSeat',
-  seatId,
+  roomId,
   name,
   description,
   id: new ObjectId().toString(),
@@ -27,4 +27,12 @@ export default createReducer(initialState, {
       [id]: seat,
     };
   },
+  'entities/load': (state, action) => {
+    const { entities } = action;
+    if (entities.seat) {
+      return entities.seat;
+    }
+    return state;
+  },
+
 });

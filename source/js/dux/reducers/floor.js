@@ -5,20 +5,26 @@ const initialState = {
 };
 
 
-export const addFloor = (buildingId, name, description) => ({
+export const addFloor = (buildingId, name, description, notes, roomNameTemplate, seatNameTemplate) => ({
   type: 'floor/addFloor',
   buildingId,
   name,
   description,
+  notes,
+  nextRoomId: 1,
   id: new ObjectId().toString(),
 });
 
 export default createReducer(initialState, {
   'floor/addFloor': (state, action) => {
-    const { id, name, description } = action;
+    const { id, roomNameTemplate, seatNameTemplate, name, notes, nextRoomId, description } = action;
     const floor = {
       name,
       id,
+      notes,
+      roomNameTemplate,
+      seatNameTemplate,
+      nextRoomId,
       description,
       rooms: [],
     };
@@ -34,6 +40,7 @@ export default createReducer(initialState, {
       ...state,
       [floorId]: {
         ...floor,
+        nextRoomId: floor.nextRoomId + 1,
         rooms: [
           ...floor.floors,
           id,
@@ -41,4 +48,12 @@ export default createReducer(initialState, {
       },
     };
   },
+  'entities/load': (state, action) => {
+    const { entities } = action;
+    if (entities.floor) {
+      return entities.floor;
+    }
+    return state;
+  },
+
 });

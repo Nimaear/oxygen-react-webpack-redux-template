@@ -8,9 +8,8 @@ const ServerHtml = ({ appHtml, dehydratedState, title, messages }) => (
     <head>
       <meta charSet='utf-8' />
       <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0' />
-
       <title>{ title }</title>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css" />
+      <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css' />
       <link rel='stylesheet' href={ `/${ outputFiles.css }` } />
     </head>
     <body>
@@ -38,7 +37,14 @@ ServerHtml.propTypes = {
 };
 
 const getServerHtml = (appHtml, dehydratedState = null, title, messages) => {
-  return `<!doctype html>${ ReactDOMServer.renderToString(<ServerHtml appHtml={ appHtml } dehydratedState={ dehydratedState } title={ title } messages={ messages } />) }`;
+  return `<!doctype html>${ ReactDOMServer.renderToString(
+    <ServerHtml
+      appHtml={ appHtml }
+      dehydratedState={ dehydratedState }
+      title={ title }
+      messages={ messages }
+    />
+    ) }`;
 };
 
 export default getServerHtml;
