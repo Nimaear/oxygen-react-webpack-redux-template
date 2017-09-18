@@ -5,26 +5,28 @@ const initialState = {
 };
 
 
-export const addRoom = (floorId, name, description, notes, seatNameTemplate) => ({
+export const addRoom = (floorId, roomIndex, name, description, notes, seatNameTemplate) => ({
   type: 'room/addRoom',
   floorId,
   name,
   description,
   notes,
+  roomIndex,
   seatNameTemplate,
-  nextSeatId: 1,
+  seatIndex: 1,
   id: new ObjectId().toString(),
 });
 
 export default createReducer(initialState, {
   'room/addRoom': (state, action) => {
-    const { id, nextSeatId, name, seatNameTemplate, description, notes } = action;
+    const { id, roomIndex, seatIndex, name, seatNameTemplate, description, notes } = action;
     const room = {
       name,
       id,
       description,
-      nextSeatId,
+      seatIndex,
       notes,
+      roomIndex,
       seatNameTemplate,
       seats: [],
     };
@@ -40,7 +42,7 @@ export default createReducer(initialState, {
       ...state,
       [roomId]: {
         ...room,
-        nextSeatId: room.nextSeatId + 1,
+        seatIndex: room.seatIndex + 1,
         seats: [
           ...room.seats,
           id,

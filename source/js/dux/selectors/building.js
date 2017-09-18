@@ -9,9 +9,9 @@ const getSeatById = (seats, id, merge) => {
 
 const getRoomById = (rooms, seats, id, merge) => {
   const extra = {
-    nextBuildingId: rooms[id].nextBuildingId,
-    nextFloorId: rooms[id].nextBuildingId,
-    nextRoomId: rooms[id].nextRoomId,
+    buildingIndex: rooms[id].buildingIndex,
+    floorIndex: rooms[id].floorIndex,
+    roomIndex: rooms[id].roomIndex,
   };
   return {
     ...rooms[id],
@@ -22,8 +22,8 @@ const getRoomById = (rooms, seats, id, merge) => {
 
 const getFloorById = (floors, rooms, seats, id, merge) => {
   const extra = {
-    nextBuildingId: floors[id].nextBuildingId,
-    nextFloorId: floors[id].nextBuildingId,
+    buildingIndex: floors[id].buildingIndex,
+    floorIndex: floors[id].floorIndex,
   };
   return {
     ...floors[id],
@@ -32,12 +32,13 @@ const getFloorById = (floors, rooms, seats, id, merge) => {
   };
 };
 
-const getBuildingById = (buildings, floors, rooms, seats, id) => {
+const getBuildingById = (buildings, floors, rooms, seats, id, merge) => {
   const extra = {
-    nextBuildingId: buildings[id].nextBuildingId,
+    buildingIndex: buildings[id].buildingIndex,
   };
   return {
     ...buildings[id],
+    ...merge,
     floors: buildings[id].floors.map(floorId => getFloorById(floors, rooms, seats, floorId, extra)),
   };
 };
@@ -57,12 +58,13 @@ export const getBuilding = makeGetBuilding();
 
 const makeGetBuildings = () => {
   return createSelector(
+    (state, projectId) => state.entities.project[projectId],
     (state) => state.entities.building,
     (state) => state.entities.floor,
     (state) => state.entities.room,
     (state) => state.entities.seat,
-    (state, projectId) => state.entities.project[projectId].buildings,
-    (buildings, floors, rooms, seats, ids) => {
+    (project, buildings, floors, rooms, seats) => {
+      const ids = project.buildings;
       return ids.map(id => getBuildingById(buildings, floors, rooms, seats, id));
     }
   );

@@ -5,13 +5,14 @@ const initialState = {
 };
 
 
-export const addBuilding = (projectId, name, description, notes, floorNameTemplate, roomNameTemplate, seatNameTemplate) => ({
+export const addBuilding = (projectId, buildindIndex, name, description, notes, floorNameTemplate, roomNameTemplate, seatNameTemplate) => ({
   type: 'building/addBuilding',
   projectId,
   name,
   notes,
   description,
-  nextFloorId: 1,
+  buildindIndex,
+  floorIndex: 1,
   floorNameTemplate: floorNameTemplate || 'Floor %d',
   roomNameTemplate: roomNameTemplate || '%fd-%d',
   seatNameTemplate: seatNameTemplate || '%c',
@@ -26,10 +27,12 @@ export const deleteBuilding = (projectId, id) => ({
 
 export default createReducer(initialState, {
   'building/addBuilding': (state, action) => {
-    const { id, name, notes, floorNameTemplate, roomNameTemplate, seatNameTemplate, description } = action;
+    const { id, name, buildingIndex, floorIndex, notes, floorNameTemplate, roomNameTemplate, seatNameTemplate, description } = action;
     const building = {
       name,
       id,
+      buildingIndex,
+      floorIndex,
       description,
       floorNameTemplate,
       roomNameTemplate,
@@ -47,6 +50,7 @@ export default createReducer(initialState, {
     const newState = {
       ...state,
     };
+    delete newState[id];
     return newState;
   },
   'floor/addFloor': (state, action) => {
@@ -56,7 +60,7 @@ export default createReducer(initialState, {
       ...state,
       [buildingId]: {
         ...building,
-        nextFloorId: building.nextFloorId + 1,
+        floorIndex: building.floorIndex + 1,
         floors: [
           ...building.floors,
           id,

@@ -5,7 +5,7 @@ import { Segment, Header, Icon, Modal, TextArea, Form, Input, Button } from 'sem
 import { _l } from 'oxygen-i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as buildingActions from 'dux/reducers/building';
+import * as floorActions from 'dux/reducers/floor';
 
 const css = oxygenCss({
   root: {
@@ -17,32 +17,31 @@ addTranslations({
   'en-US': {
     'Save': 'Save',
     'Cancel': 'Cancel',
-    'Building name': 'Building name',
+    'Floor name': 'Floor name',
     'Notes': 'Notes',
     'Description': 'Description',
     'Enter some notes here (optional)': 'Enter some notes here (optional)',
-    'Floor name template': 'Floor name template',
     'Room name template': 'Room name template',
     'Seat name template': 'Seat name template',
-    'Fill in building details': 'Fill in building details',
+    'Fill in floor details': 'Fill in floor details',
   },
   'sv-SE': {
     'Save': 'Save',
     'Cancel': 'Cancel',
-    'Building name': 'Building name',
+    'Floor name': 'Floor name',
     'Notes': 'Notes',
     'Description': 'Description',
     'Enter some notes here (optional)': 'Enter some notes here (optional)',
-    'Floor name template': 'Floor name template',
     'Room name template': 'Room name template',
     'Seat name template': 'Seat name template',
-    'Fill in building details': 'Fill in building details',
+    'Fill in floor details': 'Fill in floor details',
   },
 });
 
 
 const createName = (template, object) => {
   let result = template;
+  // console.log(object);
   Object.keys(object).forEach(key => {
     result = result.replace(key, object[key]);
   });
@@ -52,69 +51,78 @@ const createName = (template, object) => {
 
 @connect(() => ({
 }), dispatch => ({
-  addBuilding: bindActionCreators(buildingActions.addBuilding, dispatch),
+  addFloor: bindActionCreators(floorActions.addFloor, dispatch),
 }))
-export default class NewBuildingForm extends React.Component {
+export default class NewFloorForm extends React.Component {
   static propTypes = {
-    addBuilding: PropTypes.func,
-    project: PropTypes.object,
+    addFloor: PropTypes.func,
+    building: PropTypes.object,
     onRequestClose: PropTypes.func,
   };
 
-  state = {
-    name: createName(this.props.project.buildingNameTemplate, {
-      '%d': this.props.project.buildingIndex,
-      '%c': String.fromCharCode(96 + this.props.project.buildingIndex),
-      '%C': String.fromCharCode(64 + this.props.project.buildingIndex),
-    }),
-    notes: '',
-    description: '',
-    floorNameTemplate: 'Floor %c',
-    roomNameTemplate: '%fd-%d',
-    seatNameTemplate: 'Seat %c',
+  constructor() {
+    super(...arguments);
+    const { building } = this.props;
+    console.log(building);
+    const name = createName(building.floorNameTemplate, {
+      '%d': building.floorIndex,
+      '%c': String.fromCharCode(96 + building.floorIndex),
+      '%C': String.fromCharCode(64 + building.floorIndex),
+      '%bd': building.buildingIndex,
+      '%bc': String.fromCharCode(96 + building.buildingIndex),
+      '%BC': String.fromCharCode(64 + building.buildingIndex),
+    });
+    this.state = {
+      name,
+      notes: '',
+      description: '',
+      roomNameTemplate: '%fd-%d',
+      seatNameTemplate: 'Seat %c',
+    }
+  }
+
+  addFloor = () => {
+    const { building, addFloor, onRequestClose } = this.props;
+    const {
+      name,
+      roomNameTemplate,
+      seatNameTemplate,
+      description,
+      notes,
+    } = this.state;
+    addFloor(building.id, building.floorIndex, name, description, notes, roomNameTemplate, seatNameTemplate);
+    if (onRequestClose) { onRequestClose(); }
   };
 
   componentWillReceiveProps(nextProps) {
-    const { buildingIndex } = this.props.project;
-    if (buildingIndex !== nextProps.project.buildingIndex) {
-      const { buildingIndex: nextBuildingIndex } = nextProps.project;
-      const name = createName(nextProps.project.buildingNameTemplate, {
-        '%d': nextBuildingIndex,
-        '%c': String.fromCharCode(96 + nextBuildingIndex),
-        '%C': String.fromCharCode(64 + nextBuildingIndex),
+    const { floorIndex } = this.props.building;
+    if (floorIndex !== nextProps.building.floorIndex) {
+      const { floorIndex: nextFloorIndex } = nextProps.building;
+      const name = createName(this.props.building.floorNameTemplate, {
+        '%d': nextFloorIndex,
+        '%c': String.fromCharCode(96 + nextFloorIndex),
+        '%C': String.fromCharCode(64 + nextFloorIndex),
+        '%bd': this.props.building.buildingIndex,
+        '%bc': String.fromCharCode(96 + this.props.building.buildingIndex),
+        '%BC': String.fromCharCode(64 + this.props.building.buildingIndex),
       });
       this.setState({ name });
     }
   }
 
-  addBuilding = () => {
-    const { project, addBuilding, onRequestClose } = this.props;
-    const {
-      name,
-      roomNameTemplate,
-      floorNameTemplate,
-      seatNameTemplate,
-      description,
-      notes,
-    } = this.state;
-    addBuilding(project.id, project.buildingIndex, name, description, notes, floorNameTemplate, roomNameTemplate, seatNameTemplate);
-    if (onRequestClose) { onRequestClose(); }
-  };
-
   render() {
     const {
       name,
       roomNameTemplate,
-      floorNameTemplate,
       seatNameTemplate,
       description,
       notes,
     } = this.state;
-    const { project, onRequestClose, addBuilding, ...other } = this.props;
+    const { building, onRequestClose, addFloor, ...other } = this.props;
     return (
       <Modal { ...other } size='small' closeOnDimmerClick >
         <Segment clearing>
-          <Header icon='save' content={ _l`Fill in building details` } floated='left' />
+          <Header icon='save' content={ _l`Fill in floor details` } floated='left' />
         </Segment>
         <Modal.Content>
           <Form>
@@ -122,17 +130,10 @@ export default class NewBuildingForm extends React.Component {
               control={ Input }
               value={ name }
               onChange={ (event, data) => this.setState({ name: data.value }) }
-              label={ _l`Building name` }
-              placeholder={ _l`Building name` }
+              label={ _l`Floor name` }
+              placeholder={ _l`Floor name` }
             />
             <Form.Group widths='equal'>
-              <Form.Field
-                control={ Input }
-                value={ floorNameTemplate }
-                onChange={ (event, data) => this.setState({ floorNameTemplate: data.value }) }
-                label={ _l`Floor name template` }
-                placeholder={ _l`Floor name template` }
-              />
               <Form.Field
                 control={ Input }
                 value={ roomNameTemplate }
@@ -168,7 +169,7 @@ export default class NewBuildingForm extends React.Component {
           <Button onClick={ onRequestClose }>
             <Icon name='remove' />{_l`Cancel`}
           </Button>
-          <Button color='green' onClick={ this.addBuilding }>
+          <Button color='green' onClick={ this.addFloor }>
             <Icon name='checkmark' />{_l`Save`}
           </Button>
         </Modal.Actions>

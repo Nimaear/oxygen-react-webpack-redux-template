@@ -7,6 +7,7 @@ import * as buildingActions from 'dux/reducers/building';
 import { withRouter } from 'react-router';
 import { Header, List, Segment, Button, Confirm } from 'semantic-ui-react';
 import NewBuildingForm from 'components/Editor/NewBuildingForm';
+import NewFloorForm from 'components/Editor/NewFloorForm';
 import { _l } from 'oxygen-i18n';
 
 addTranslations({
@@ -45,21 +46,26 @@ export default class Project extends Component {
   };
 
   state = {
-    newBuildingForm: false,
+    newBuildingForProject: null,
     buildingToDelete: null,
+    newFloorForBuilding: null,
   };
 
   deleteBuilding = () => {
     const { buildingToDelete } = this.state;
     const { project, deleteBuilding } = this.props;
-    deleteBuilding(project.id, buildingToDelete);
+    deleteBuilding(project.id, buildingToDelete.id);
     this.setState({ buildingToDelete: null });
   }
 
   render() {
     const { project, buildings } = this.props;
-
-    const { buildingToDelete, newBuildingForm } = this.state;
+    console.log(project);
+    const {
+      buildingToDelete,
+      newBuildingForProject,
+      newFloorForBuilding,
+    } = this.state;
     return (
       <div>
         <Segment clearing>
@@ -68,20 +74,21 @@ export default class Project extends Component {
             <Header.Subheader>{project.description}</Header.Subheader>
           </Header>
           <Header floated='right'>
-            <Button primary onClick={ () => this.setState({ newBuildingForm: true }) }>
+            <Button primary onClick={ () => this.setState({ newBuildingForProject: project }) }>
               {_l`New building`}
             </Button>
           </Header>
         </Segment>
-        <Header as='h1'>{_l`Buildings`}</Header>
         {buildings.map(building => {
           return (
-            <Segment key={ building.id }>
-              <List divided ordered>
-                <List.Item verticalAlign='middle'>
+            <Segment.Group key={ building.id }>
+            <Segment  inverted>
+              <List divided inverted relaxed>
+                <List.Item>
                   <List.Content floated='right'>
                     <Button icon='comment' onClick={ () => this.setState({ buildingToDelete: building.id }) } />
-                    <Button color='red' icon='trash' onClick={ () => this.setState({ buildingToDelete: building.id }) } />
+                    <Button color='green' icon='plus' onClick={ () => this.setState({ newFloorForBuilding: building }) } />
+                    <Button color='red' icon='trash' onClick={ () => this.setState({ buildingToDelete: building }) } />
                   </List.Content>
                   <List.Content verticalAlign='middle'>
                     <List.Header>{building.name}</List.Header>
@@ -90,6 +97,23 @@ export default class Project extends Component {
                 </List.Item>
               </List>
             </Segment>
+            <Segment>
+              <List divided>
+                {building.floors.map(floor => {
+                  return (
+                    <List.Item key={ floor.id }>
+                      <List.Content floated='right'>
+                        <Button icon='comment' onClick={ () => this.setState({ buildingToDelete: building.id }) } />
+                        <Button color='green' icon='plus' onClick={ () => this.setState({ newFloorForBuilding: building }) } />
+                        <Button color='red' icon='trash' onClick={ () => this.setState({ buildingToDelete: building }) } />
+                      </List.Content>
+                      <List.Content>{floor.name}</List.Content>
+                    </List.Item>
+                  )
+                })}
+              </List>
+            </Segment>
+            </Segment.Group>
           );
         })}
         <Confirm
@@ -101,12 +125,18 @@ export default class Project extends Component {
           onCancel={ () => this.setState({ buildingToDelete: null }) }
           onConfirm={ this.deleteBuilding }
         />
-        <NewBuildingForm
-          projectId={ project.id }
-          open={ newBuildingForm }
-          onRequestClose={ () => this.setState({ newBuildingForm: false }) }
-          onClose={ () => this.setState({ newBuildingForm: false }) }
-        />
+        {newBuildingForProject && <NewBuildingForm
+          project={ newBuildingForProject }
+          open={ true }
+          onRequestClose={ () => this.setState({ newBuildingForProject: null }) }
+          onClose={ () => this.setState({ newBuildingForProject: null }) }
+        />}
+        {newFloorForBuilding && <NewFloorForm
+          building={ newFloorForBuilding }
+          open={ true }
+          onRequestClose={ () => this.setState({ newFloorForBuilding: null }) }
+          onClose={ () => this.setState({ newFloorForBuilding: null }) }
+        />}
       </div>
     );
   }

@@ -5,26 +5,30 @@ const initialState = {
 };
 
 
-export const addFloor = (buildingId, name, description, notes, roomNameTemplate, seatNameTemplate) => ({
+export const addFloor = (buildingId, floorIndex, name, description, notes, roomNameTemplate, seatNameTemplate) => ({
   type: 'floor/addFloor',
   buildingId,
   name,
   description,
+  floorIndex,
   notes,
-  nextRoomId: 1,
+  roomIndex: 1,
+  roomNameTemplate: roomNameTemplate || '%fd-%d',
+  seatNameTemplate: seatNameTemplate || '%c',
   id: new ObjectId().toString(),
 });
 
 export default createReducer(initialState, {
   'floor/addFloor': (state, action) => {
-    const { id, roomNameTemplate, seatNameTemplate, name, notes, nextRoomId, description } = action;
+    const { id, floorIndex, roomNameTemplate, seatNameTemplate, name, notes, roomIndex, description } = action;
     const floor = {
       name,
       id,
       notes,
+      floorIndex,
       roomNameTemplate,
       seatNameTemplate,
-      nextRoomId,
+      roomIndex,
       description,
       rooms: [],
     };
@@ -40,7 +44,7 @@ export default createReducer(initialState, {
       ...state,
       [floorId]: {
         ...floor,
-        nextRoomId: floor.nextRoomId + 1,
+        roomIndex: floor.roomIndex + 1,
         rooms: [
           ...floor.floors,
           id,

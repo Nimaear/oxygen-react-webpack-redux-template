@@ -4,27 +4,26 @@ import createReducer from './createReducer';
 const initialState = {
 };
 
-
 export const addProject = (name, description, notes, buildingNameTemplate) => ({
   type: 'project/addProject',
   name,
   description,
   notes,
   id: new ObjectId().toString(),
+  buildingIndex: 1,
   buildingNameTemplate,
-  nextBuildingId: 1,
 });
 
 export default createReducer(initialState, {
   'project/addProject': (state, action) => {
-    const { id, name, nextBuildingId, description, notes, buildingNameTemplate } = action;
+    const { id, name, buildingIndex, description, notes, buildingNameTemplate } = action;
     const project = {
       name,
       id,
       notes,
       buildingNameTemplate,
       description,
-      nextBuildingId,
+      buildingIndex,
       buildings: [],
     };
     return {
@@ -39,7 +38,7 @@ export default createReducer(initialState, {
       ...state,
       [projectId]: {
         ...project,
-        nextBuildingId: project.nextBuildingId + 1,
+        buildingIndex: project.buildingIndex + 1,
         buildings: [
           ...project.buildings,
           id,

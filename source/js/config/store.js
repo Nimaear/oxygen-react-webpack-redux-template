@@ -31,7 +31,9 @@ const persistToLocalStorage = store => {
       localStorage.setItem('__ENTITIES', JSON.stringify(state.entities));
     } else if (type === 'app/load') {
       const entities = JSON.parse(localStorage.getItem('__ENTITIES'));
-      next({ type: 'entities/load', entities });
+      if (entities) {
+        next({ type: 'entities/load', entities });
+      }
     }
     return next(action);
   };

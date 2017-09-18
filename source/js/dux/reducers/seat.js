@@ -5,21 +5,23 @@ const initialState = {
 };
 
 
-export const addSeat = (roomId, name, description) => ({
+export const addSeat = (roomId, seatIndex, name, description) => ({
   type: 'seat/addSeat',
   roomId,
   name,
+  seatIndex,
   description,
   id: new ObjectId().toString(),
 });
 
 export default createReducer(initialState, {
   'seat/addSeat': (state, action) => {
-    const { id, name, description } = action;
+    const { id, seatIndex, name, description } = action;
     const seat = {
       name,
       id,
       description,
+      seatIndex,
       seats: [],
     };
     return {
