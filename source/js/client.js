@@ -13,6 +13,7 @@ import { addMessages } from 'oxygen-i18n';
 // import 'semantic-ui-css/semantic.min.css';
 import '../../tmp/bundle.css';
 import '../styles/reset.css';
+import '../styles/semantic.paper.css';
 
 const SERVER_RENDER = process.env.SERVER_RENDER === 'true';
 
@@ -26,7 +27,7 @@ const store = configureStore();
 if (!SERVER_RENDER) {
   if (global && global.__INIT_MESSAGES) { // eslint-disable-line no-underscore-dangle
     addMessages(global.__INIT_MESSAGES); // eslint-disable-line no-underscore-dangle
-    delete global.__INIT_MESSAGES; // eslint-disable-line no-underscore-dangle
+    // delete global.__INIT_MESSAGES; // eslint-disable-line no-underscore-dangle
   } else {
     const messages = require('../../tmp/messages.json'); // eslint-disable-line global-require
     addMessages(messages);

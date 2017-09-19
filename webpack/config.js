@@ -9,6 +9,7 @@ const autoprefixer = require('autoprefixer');
 const paths = {
   source: path.join(__dirname, '../source'),
   javascript: path.join(__dirname, '../source/js'),
+  semanticUI: path.join(__dirname, '../source/styles/themes'),
   images: path.join(__dirname, '../source/assets/img'),
   build: path.join(__dirname, '../build'),
 };
@@ -119,8 +120,8 @@ const rules = [
     use: ['json-loader'],
   },
   {
-    test: /\.(png|gif|jpg|svg)$/,
-    include: paths.images,
+    test: /\.(png|gif|jpg|svg|eot|woff|woff2|ttf)$/,
+    include: [paths.images, paths.semanticUI],
     use: [
       {
         loader: 'file-loader',

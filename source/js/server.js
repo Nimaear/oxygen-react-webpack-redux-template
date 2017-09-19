@@ -27,8 +27,8 @@ const port = 8080;
 app.use('/client', express.static('build/client'));
 
 // require('../../tmp/bundle.css');
-require('../styles/reset.css');
-
+import '../styles/reset.css';
+import '../styles/semantic.paper.css';
 
 const messages = fs.readFileSync(
   path.resolve('build', 'messages.json'),

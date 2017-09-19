@@ -60,7 +60,6 @@ export default class Project extends Component {
 
   render() {
     const { project, buildings } = this.props;
-    console.log(project);
     const {
       buildingToDelete,
       newBuildingForProject,

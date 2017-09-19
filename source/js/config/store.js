@@ -50,7 +50,11 @@ export default () => {
   } else {
     // In development mode beside thunk
     // logger and DevTools are added
-    middleware = applyMiddleware(thunk, persistToLocalStorage, apiMiddleware, logger);
+    if (localStorage) {
+      middleware = applyMiddleware(thunk, persistToLocalStorage, apiMiddleware, logger);
+    } else {
+      middleware = applyMiddleware(thunk, apiMiddleware, logger);
+    }
 
     // Enable DevTools if browser extension is installed
     if (!process.env.SERVER_RENDER && window.__REDUX_DEVTOOLS_EXTENSION__) { // eslint-disable-line
